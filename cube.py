@@ -1,5 +1,6 @@
 from ursina import *
 from ursina import vec3
+from ursina import collider
 
 # 참조 : Ursina 에서 model 중 cube 라는 model이 존재하지만 cube 라는 model은 color를 하나 밖에 못줌;;
 # So 우리가 원하는 큐브 모양이 안됨ㅠ --> plane을 줘서 직접 만드는 거임 그럼 색상 다양하게 줄 수 있음
@@ -47,7 +48,9 @@ for x in range(3):
             e = duplicate(Entiti,position=Vec3(x,y,z)-Vec3(1,1,1),texture = "white_cube")
             cubelist.append(e)# append -> python list에서 추가해주는 함수
 
-#카메라(이게 있어야지 볼 수 있음 3차원)
+# 카메라(이게 있어야지 볼 수 있음 3차원)
 EditorCamera()
 
+# 충돌 객체
+collider = Entity(model='cube',scale=3,collider=,box)
 app.run()
