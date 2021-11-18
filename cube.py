@@ -53,11 +53,9 @@ collider = Entity(model='cube',scale=3,collider='box',visible=False)# visible = 
 
 def collider_input(key):
     if mouse.hovered_entity == collider:
-        if key == 'left mouse click':
-            pass # 왼쪽으로 회전
+        if key == 'left mouse down':
             rotate(mouse.normal,1)
-        elif key == 'right mouse click':
-            pass # 오른쪽으로 회전
+        elif key == 'right mouse down':
             rotate(mouse.normal,-1)
 
 
