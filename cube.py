@@ -48,9 +48,31 @@ for x in range(3):
             e = duplicate(Entiti,position=Vec3(x,y,z)-Vec3(1,1,1),texture = "white_cube")
             cubelist.append(e)# append -> python list에서 추가해주는 함수
 
+# 충돌 객체
+collider = Entity(model='cube',scale=3,collider='box',visible=False)# visible = False 안보이게 하는거
+
+def collider_input(key):
+    if mouse.hovered_entity == collider:
+        if key == 'left mouse click':
+            pass # 왼쪽으로 회전
+            rotate(mouse.normal,1)
+        elif key == 'right mouse click':
+            pass # 오른쪽으로 회전
+            rotate(mouse.normal,-1)
+
+
+collider.input = collider_input
+
+rotation_helper = Entity()
+
+# normal 이 큐브의 면 비슷한거 direction 은 그냥 내가 구분하려고 한거
+def rotate(normal,direction=1):
+    for e in cubelist:# 아까전에 저장해둔 큐브 9*9 27개 조각들을 돌면서
+        if normal == Vec3(1,0,0) and e.x > 0:# 큐브 면이 x 방향으로 보고 있고 && 큐브의 위치가 0보다 크면 ==> 오른쪽
+            e.world_parent = rotation_helper# 묶어 줌         # direction 은 어느 방향으로 돌릴건가 -90 or 90
+            rotation_helper.animate('rotation_x',90 * direction, duration=1)# duration 이 속도  
+
 # 카메라(이게 있어야지 볼 수 있음 3차원)
 EditorCamera()
 
-# 충돌 객체
-collider = Entity(model='cube',scale=3,collider=,box)
 app.run()
