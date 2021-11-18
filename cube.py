@@ -58,7 +58,6 @@ def collider_input(key):
         elif key == 'right mouse down':
             rotate(mouse.normal,-1)
 
-
 collider.input = collider_input
 
 rotation_helper = Entity()
@@ -66,9 +65,37 @@ rotation_helper = Entity()
 # normal 이 큐브의 면 비슷한거 direction 은 그냥 내가 구분하려고 한거
 def rotate(normal,direction=1):
     for e in cubelist:# 아까전에 저장해둔 큐브 9*9 27개 조각들을 돌면서
+        # X 축 부분 회전
         if normal == Vec3(1,0,0) and e.x > 0:# 큐브 면이 x 방향으로 보고 있고 && 큐브의 위치가 0보다 크면 ==> 오른쪽
             e.world_parent = rotation_helper# 묶어 줌         # direction 은 어느 방향으로 돌릴건가 -90 or 90
-            rotation_helper.animate('rotation_x',90 * direction, duration=1)# duration 이 속도  
+            rotation_helper.animate('rotation_x',90 * direction, duration=0.5)# duration 이 속도
+        elif normal == Vec3(-1,0,0) and e.x < 0:
+            e.world_parent = rotation_helper
+            rotation_helper.animate('rotation_x',-90 * direction, duration=0.5)
+        
+        # Y 축 부분 회전
+        if normal == Vec3(0,1,0) and e.y > 0:
+            e.world_parent = rotation_helper
+            rotation_helper.animate('rotation_y',-90 * direction, duration=0.5)
+        elif normal == Vec3(0,-1,0) and e.y < 0:
+            e.world_parent = rotation_helper
+            rotation_helper.animate('rotation_y',90 * direction, duration=0.5)
+        
+        # Z 축 부분 회전
+        if normal == Vec3(0,0,1) and e.z > 0:
+            e.world_parent = rotation_helper
+            rotation_helper.animate('rotation_z',90 * direction, duration=0.5)
+        elif normal == Vec3(0,0,-1) and e.z < 0:
+            e.world_parent = rotation_helper
+            rotation_helper.animate('rotation_z',-90 * direction, duration=0.5)
+
+    invoke(reset,delay=0.55)# delay 뒤에 실행시켜주는 좋은 함수임
+
+# 표 재구성 9*9 만든 표
+def reset():
+    for e in cubelist:
+        e.world_parent = scene
+    rotation_helper.rotation = (0,0,0)
 
 # 카메라(이게 있어야지 볼 수 있음 3차원)
 EditorCamera()
